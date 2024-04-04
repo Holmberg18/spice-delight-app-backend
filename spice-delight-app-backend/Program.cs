@@ -29,6 +29,8 @@ var connectionString = $"Server={dbConnectionInfo.Server};" +
 builder.Services.AddDbContext<SpiceDbContext>(options =>
     options.UseSqlServer(connectionString));
 
+builder.Services.AddGraphQLServer().AddQueryType<Query>().AddProjections().AddFiltering().AddSorting();
+
 builder.Services.AddControllers();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -72,5 +74,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
+app.MapGraphQL("/graphql");
 app.Run();
