@@ -1,9 +1,7 @@
-﻿using Amazon;
-using Amazon.SecretsManager;
-using Amazon.SecretsManager.Model;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text.Json;
+﻿using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
+using Microsoft.EntityFrameworkCore;
+using spice_delight_app_backend.Data;
 
 
 namespace spice_delight_app_backend.Services
@@ -11,35 +9,25 @@ namespace spice_delight_app_backend.Services
     public class SecretsManagerServices
     {
 
-        public async Task<Dictionary<string, string>> GetSecretAsync(string secretName, string region)
+        public void ConfigureServices(IServiceCollection services)
         {
-            using var client = new AmazonSecretsManagerClient(Amazon.RegionEndpoint.GetBySystemName(region));
-            GetSecretValueRequest request = new GetSecretValueRequest
-            {
-                SecretId = secretName
-            };
-            GetSecretValueResponse response = await client.GetSecretValueAsync(request);
+            // Authenticate to Azure using managed identity
+            var credential = new DefaultAzureCredential();
 
-            if (response.SecretString != null)
-            {
-                return JsonSerializer.Deserialize<Dictionary<string, string>>(response.SecretString);
-            }
-            else
-            {
-                throw new Exception("Secrets Manager secret must be a string");
-            }
+            // Create a secret client
+            var vaultUrl = "https://spicedelightappapi.vault.azure.net/";
+            var client = new SecretClient(new Uri(vaultUrl), credential);
+
+            // Retrieve the secret containing your connection string
+            KeyVaultSecret secret = client.GetSecret("spice-delight-app-sqlserver");
+
+            // Use the retrieved connection string
+            var connectionString = secret.Value;
+
+            services.AddDbContext<SpiceDbContext>(options =>
+                options.UseSqlServer(connectionString));
+
         }
-
-    }
-
-    public class DbConnectionInfo
-    {
-        public string Server { get; set; }
-        public string Database { get; set; }
-        public string UserId { get; set; }
-        public string Password { get; set; }
-        public bool Encrypt { get; set; } = true;
-        public bool TrustServerCertificate { get; set; } = true;
     }
 
 }

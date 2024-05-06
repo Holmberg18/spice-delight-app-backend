@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using spice_delight_app_backend.Data;
 
 #nullable disable
 
-namespace spice_delight_app_backend.Data.Migrations
+namespace spice_delight_app_backend.Migrations
 {
     [DbContext(typeof(SpiceDbContext))]
-    partial class SpiceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240414223101_Instantiate")]
+    partial class Instantiate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

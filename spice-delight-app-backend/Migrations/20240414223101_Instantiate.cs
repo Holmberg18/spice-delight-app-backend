@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace spice_delight_app_backend.Data.Migrations
+namespace spice_delight_app_backend.Migrations
 {
     /// <inheritdoc />
-    public partial class createdatabase : Migration
+    public partial class Instantiate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
