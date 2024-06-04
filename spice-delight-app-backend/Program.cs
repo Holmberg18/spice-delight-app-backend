@@ -1,4 +1,6 @@
 using spice_delight_app_backend.Services;
+using Microsoft.EntityFrameworkCore;
+using spice_delight_app_backend.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,8 +12,19 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 //Adding DbContext to connect to SQL Server!!!
 
-var secretService = new SecretsManagerServices();
-secretService.ConfigureServices(builder.Services);
+var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+if(environment != "Production")
+{
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    builder.Services.AddDbContext<SpiceDbContext>(options =>
+                 options.UseSqlServer(connectionString));
+}
+else
+{
+    var secretService = new SecretsManagerServices();
+    secretService.ConfigureServices(builder.Services);
+}
+
 
 var app = builder.Build();
 
