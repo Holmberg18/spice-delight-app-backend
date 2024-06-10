@@ -1,30 +1,39 @@
-name: .NET CI
+name: Publish 🚀
 
 on:
+  workflow_dispatch:
   push:
-    branches: [master]
-  pull_request:
-    branches: [master]
+    branches:
+    - master
+
+env:
+  AZURE_WEBAPP_NAME: spice-delight-app-api
+  AZURE_WEBAPP_PACKAGE_PATH: "./publish"
 
 jobs:
-  build:
-
-    runs-on: windows-latest
-
+  publish:
+    runs-on: ubuntu-latest
+    
     steps:
-    - uses: actions/checkout@v2
-
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: '8.0'
-
-    - name: Restore dependencies
-      run: dotnet restore
-
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
-
-    - name: Test
-      run: dotnet test --no-restore --verbosity normal
+      - uses: actions/checkout@v3
       
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+          
+      - name: Restore
+        run: dotnet restore ./spice-delight-app-backend.sln
+        
+      - name: Build
+        run: dotnet build ./spice-delight-app-backend.sln --configuration Release --no-restore
+        
+      - name: Publish
+        run: dotnet publish ./spice-delight-app-backend.sln --configuration Release --no-build --output '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
+        
+      - name: Deployment
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
+          package: "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}"
