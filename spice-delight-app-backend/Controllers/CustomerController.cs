@@ -131,7 +131,7 @@ namespace spice_delight_app_backend.Controllers
                 }
             }
 
-            return Ok("Login successful.");
+            return Ok(customer);
         }
     }
 }
