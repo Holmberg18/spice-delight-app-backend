@@ -131,7 +131,19 @@ namespace spice_delight_app_backend.Controllers
                 }
             }
 
-            return Ok(customer);
+            // Create the response
+            var response = new
+            {
+                customerId = customer.CustomerID,
+                firstName = customer.FirstName,
+                lastName = customer.LastName,
+                email = customer.Email,
+                phone = customer.Phone,
+                address = customer.Address,
+                username = customer.Username
+            };
+
+            return Ok(response);
         }
     }
 }
