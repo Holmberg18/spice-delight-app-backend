@@ -10,7 +10,6 @@ namespace spice_delight_app_backend.Models
         [Key]
         public int OrderID { get; set; }
         public int CustomerID { get; set; }
-        [ForeignKey("CategoryID")]
         public DateTime OrderDate { get; set; }
 
         [Precision(18, 2)]
