@@ -15,6 +15,8 @@ namespace spice_delight_app_backend.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetails> OrderDetails { get; set; }
+        public DbSet<Stripe> Stripe { get; set; }
+
 
     }
 }
