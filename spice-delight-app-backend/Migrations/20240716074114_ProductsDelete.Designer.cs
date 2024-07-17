@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using spice_delight_app_backend.Data;
 
@@ -11,9 +12,11 @@ using spice_delight_app_backend.Data;
 namespace spice_delight_app_backend.Migrations
 {
     [DbContext(typeof(SpiceDbContext))]
-    partial class SpiceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240716074114_ProductsDelete")]
+    partial class ProductsDelete
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -134,44 +137,6 @@ namespace spice_delight_app_backend.Migrations
                     b.HasKey("OrderDetailID");
 
                     b.ToTable("OrderDetails");
-                });
-
-            modelBuilder.Entity("spice_delight_app_backend.Models.Product", b =>
-                {
-                    b.Property<int>("IdMeal")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdMeal"));
-
-                    b.Property<bool>("FastDelivery")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("InStock")
-                        .HasColumnType("bit");
-
-                    b.Property<decimal>("Price")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("Ratings")
-                        .HasColumnType("int");
-
-                    b.Property<string>("StrCategory")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StrMeal")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StrMealThumb")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("IdMeal");
-
-                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("spice_delight_app_backend.Models.Stripe", b =>
