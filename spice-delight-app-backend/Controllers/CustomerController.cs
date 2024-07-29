@@ -5,6 +5,7 @@ using spice_delight_app_backend.Data;
 using spice_delight_app_backend.Models;
 using spice_delight_app_backend.DTOs;
 using System.Text;
+using spice_delight_app_backend.Helpers;
 
 namespace spice_delight_app_backend.Controllers
 {
@@ -87,7 +88,9 @@ namespace spice_delight_app_backend.Controllers
 
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCustomer", new { id = customer.CustomerID }, new { customer.CustomerID, customer.FirstName, customer.LastName, customer.Email, customer.Phone, customer.Address, customer.Username });
+            var response = CustomerHelper.CreateResponse(customer);
+
+            return Ok(response);
         }
 
         [HttpDelete("{id}")]
@@ -131,17 +134,7 @@ namespace spice_delight_app_backend.Controllers
                 }
             }
 
-            // Create the response
-            var response = new
-            {
-                customerId = customer.CustomerID,
-                firstName = customer.FirstName,
-                lastName = customer.LastName,
-                email = customer.Email,
-                phone = customer.Phone,
-                address = customer.Address,
-                username = customer.Username
-            };
+            var response = CustomerHelper.CreateResponse(customer);
 
             return Ok(response);
         }
