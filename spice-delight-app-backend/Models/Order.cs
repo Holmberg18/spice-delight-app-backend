@@ -14,6 +14,7 @@ namespace spice_delight_app_backend.Models
 
         [Precision(18, 2)]
         public decimal TotalAmount { get; set; }
+        public string Items { get; set; }
         public Status Status { get; set; }
     }
 
