@@ -48,7 +48,7 @@ namespace spice_delight_app_backend.Controllers
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
 
-            return Ok(await GetOrders());
+            return Ok(order);
         }
     }
 }
