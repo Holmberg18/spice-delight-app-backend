@@ -15,7 +15,7 @@ namespace spice_delight_app_backend.Services
             var credential = new DefaultAzureCredential();
 
             // Create a secret client
-            var vaultUrl = "https://spicedelightappapi.vault.azure.net/";
+            var vaultUrl = "https://spice-delight-key-vault.vault.azure.net/";
             var client = new SecretClient(new Uri(vaultUrl), credential);
 
             // Retrieve the secret containing your connection string
